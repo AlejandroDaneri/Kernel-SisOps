@@ -1,4 +1,4 @@
-CFLAGS := -g -std=c99 -Wall -Wextra -Wpedantic -m32 -O1 -ffreestanding
+CFLAGS := -g -std=c99 -Wall -Wextra -Wpedantic -m32 -O1 -ffreestanding -fasm
 
 kern0: boot.o kern0.o
 	ld -m elf_i386 -Ttext 0x100000 --entry 0x100000 $^ -o $@
