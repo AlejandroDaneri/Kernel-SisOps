@@ -20,8 +20,7 @@ static void vga_write(const char *s, int8_t linea, uint8_t color) {
 
 
 void comienzo(void) {
-    vga_write("kern0 loading.............", 8, 0x70);
-
-    while (1)
-            asm("hlt");
+    while (1) {
+        vga_write("kern0 loading.............", 8, 0x70);
+    }
 }
