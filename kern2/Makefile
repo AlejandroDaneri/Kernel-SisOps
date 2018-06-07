@@ -12,6 +12,9 @@ QEMU := qemu-system-i386 -serial mon:stdio
 KERN := kern2
 BOOT := -kernel $(KERN) $(QEMU_EXTRA)
 
+LIBGCC := $(shell $(CC) $(CFLAGS) -print-libgcc-file-name)
+
+
 qemu: $(KERN)
 	$(QEMU) $(BOOT)
 
@@ -23,8 +26,8 @@ gdb:
 
 .PHONY: qemu qemu-gdb gdb
 
-kern2: boot.o $(OBJS)
-	ld -m elf_i386 -Ttext $(ENTRY) $^ -o $@
+kern2: boot.o $(OBJS) # en el enunciado no esta el boot.o , sacar?
+	ld -m elf_i386 -Ttext $(ENTRY)  $^ $(LIBGCC) -o $@
 	# Verificar imagen Multiboot v1.
 	grub-file --is-x86-multiboot $@
 

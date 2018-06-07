@@ -10,8 +10,9 @@ void kmain(const multiboot_info_t *mbi) {
         char *cmdline = (void *) mbi->cmdline;
         strlcat(buf, cmdline, sizeof(buf));
         vga_write(buf, 9, 0x07);
+
+        print_mbinfo(mbi);
     }
-    vga_write("A", 10, 0x57);
     asm("hlt");
-    vga_write("B", 11, 0x60); //solo de prueba para ver si hace el halt
+
 }
