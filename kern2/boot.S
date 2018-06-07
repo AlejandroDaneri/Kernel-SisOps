@@ -31,7 +31,7 @@ halt:
     jmp halt
 
 .data
-.p2align 12 //REVISAR
+.p2align 12 // está bien, es 2 a la 12 = 4096 (lo que se pide)
 kstack:
     .space KSTACK_SIZE
 kstack_bottom:
