@@ -1,0 +1,31 @@
+Explicar: ¿qué significa “estar alineado”?
+
+“Estar alineado” consiste en una restricción que impone el sistema operativo hacia las direcciones permitidas para los tipos de datos primitivos, requiriéndoles a los mismos que sean un multiplo de K (típicamente 2, 4 u 8). Estas restricciones simplifican el diseño del hardware, formando una interfaz entre el procesador y la memoria.
+
+
+Mostrar la sintaxis de C/GCC para alinear a 32 bits el arreglo kstack anterior.
+
+La sintaxis para alinear a 32 bits el arreglo sería de la siguiente manera:
+unsigned char kstack[8192] __attribute__ ((aligned (32));
+
+
+¿A qué valor se está inicializando kstack? ¿Varía entre la versión C y la versión ASM? (Leer la documentación de as sobre la directiva .space.)
+
+
+Explicar la diferencia entre las directivas .align y .p2align de as, y mostrar cómo alinear el stack del kernel a 4 KiB usando cada una de ellas.
+
+La diferencia consiste en que .align en algunos sistemas la alineación requerida es el número de bits cero de bajo orden que el contador de ubicación debe tener después del avance. Por ejemplo, '.align 3' avanza el contador de ubicaciones hasta que sea un múltiplo de 8. Si el contador de ubicaciones ya es un múltiplo de 8, no es necesario realizar ningún cambio.
+Esta incoherencia se debe a los diferentes comportamientos de los diversos ensambladores nativos para los sistemas operativos que GAS debe emular. En cambio, .p2align tiene un comportamiento consistente en todas las arquitecturas. 
+
+Para alinear el stack a 4KB se puede hacer:
+.data
+.p2align 12 // 2 a la 12 = 4096 bytes = 4KB
+kstack:
+    .space KSTACK_SIZE
+
+Para .align lo mismo ??
+
+
+
+
+
