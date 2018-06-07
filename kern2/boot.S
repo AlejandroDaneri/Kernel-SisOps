@@ -1,4 +1,3 @@
-
 #include "multiboot.h"
 
 #define KSTACK_SIZE 8192
@@ -18,12 +17,15 @@ _start:
 
     // Paso 2: pasar la información multiboot a kmain. Si el
     // kernel no arrancó vía Multiboot, se debe pasar NULL.
-    //
     // Usar una instrucción de comparación (TEST o CMP) para
     // comparar con MULTIBOOT_BOOTLOADER_MAGIC, pero no usar
     // un salto a continuación, sino una instrucción CMOVcc
     // (copia condicional).
     // ...
+    movl $0, %ecx
+    cmp $MULTIBOOT_BOOTLOADER_MAGIC, %eax
+    cmove %ebx, %ecx
+    push %ecx
 
     call kmain
 halt:
