@@ -2,11 +2,15 @@
 #define KERN2_DECL_H
 
 #include <stdint.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 
 struct multiboot_info;
 
 // mbinfo.c (ejercicio opcional kern2-meminfo)
 void print_mbinfo(const struct multiboot_info *mbi);
+bool fmt_int(uint64_t val, char *s, size_t bufsize);
 
 // stacks.S
 void two_stacks(void);
