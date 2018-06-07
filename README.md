@@ -1,6 +1,11 @@
 # kernel-sisop
 https://fisop.github.io/7508/lab/kern2/
 
+## Importante:
+ A medida que fui haciendo los ejercicios fui tageando 
+ los commits cuando terminaba, despues me di cuenta que no se
+ estaban subiendo algunos .c que eran necesarios :/ . Si haces un checkout en los tags 
+ vas a tener que bajarte los archivos aparte
 ## Dudas:
 * Como se reanuda la ejecución del kernel despues de un halt?
 
