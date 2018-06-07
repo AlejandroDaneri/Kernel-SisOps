@@ -3,7 +3,12 @@
 
 void kmain(const multiboot_info_t *mbi) {
     vga_write("kern2 loading.............", 8, 0x70);
-    while (1) {
-        asm("hlt");
+
+    if (mbi->flags) {
+        char buf[256] = "cmdline: ";
+        char *cmdline = (void *) mbi->cmdline;
+        // Aquí usar strlcat() para concatenar cmdline a buf.
+        // ...
+        vga_write(buf, 9, 0x07);
     }
 }
