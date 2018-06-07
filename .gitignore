@@ -2,3 +2,5 @@
 CMakeLists.txt
 cmake-build-debug/
 *.o
+kern0
+kern2
