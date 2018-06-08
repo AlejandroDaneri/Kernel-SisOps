@@ -1,0 +1,30 @@
+﻿
+Mostrar cómo implementar la misma concatenación, de manera correcta, usando strncat(3).
+    if (mbi->flags) {
+        char buf[256] = "cmdline: ";
+        char *cmdline = (void *) mbi->cmdline;
+        strncat(buf, cmdline, sizeof(buf)-strlen(buf)-1);
+        vga_write(buf, 9, 0x07);
+
+        print_mbinfo(mbi);
+    }
+De esta manera se evita escribir mas alla del tamaño real de buf (256)
+
+Explicar cómo se comporta strlcat(3) si, erróneamente, se declarase buf con tamaño 12. ¿Introduce algún error el código?
+2. En ese caso, lo que se quiera concatenar luego de los 9 caracteres (cmdline: ) serán solo 2 caracteres mas, ya que uno quedará reservado para el caracter '\0' y sin introducir ningun error en el código.
+
+
+Compilar el siguiente programa, y explicar por qué se imprimen dos líneas distintas, en lugar de la misma dos veces:
+#include <stdio.h>
+
+static void printf_sizeof_buf(char buf[256]) {
+    printf("sizeof buf = %zu\n", sizeof buf);
+}
+
+int main(void) {
+    char buf[256];
+    printf("sizeof buf = %zu\n", sizeof buf);
+    printf_sizeof_buf(buf);
+}
+
+3. Porque el sizeof buf de la funcion print_sizeof_buf lo que hace es devolver el tamaño de un char*, que es 8.
