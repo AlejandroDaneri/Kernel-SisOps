@@ -5,7 +5,6 @@ SRCS := $(wildcard *.c)
 SRCS += $(wildcard lib/*.c)
 OBJS := $(patsubst %.c,%.o,$(SRCS))
 
-ENTRY := 0x100000
 IP := 127.0.0.1:7508
 
 QEMU := qemu-system-i386 -serial mon:stdio
@@ -27,7 +26,7 @@ gdb:
 .PHONY: qemu qemu-gdb gdb
 
 kern2: boot.o $(OBJS) # en el enunciado no esta el boot.o , sacar?
-	ld -m elf_i386 -Ttext $(ENTRY)  $^ $(LIBGCC) -o $@
+	ld -m elf_i386 -Ttext 0x100000  $^ $(LIBGCC) -o $@
 	# Verificar imagen Multiboot v1.
 	grub-file --is-x86-multiboot $@
 

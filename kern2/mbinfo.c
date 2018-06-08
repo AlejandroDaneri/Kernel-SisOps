@@ -6,7 +6,7 @@
 
 void print_mbinfo(const struct multiboot_info *mbi){
     char mem[256] = "Physical memory: ";
-    char tmp[64] = "";
+    char tmp[64] = {0};
 
     uint32_t total_size = mbi->mem_upper - mbi->mem_lower;
     if (fmt_int(total_size>>KB_TO_MB_SHIFT, tmp, sizeof tmp)) {
