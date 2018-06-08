@@ -20,7 +20,8 @@ static size_t int_width(uint64_t val) {
 bool fmt_int(uint64_t val, char *s, size_t bufsize) {
     size_t l = int_width(val);
 
-    if (l >= bufsize)  // Pregunta: ¿por qué no "l > bufsize"? //Respuesta: para agregar el \0
+    if (l >= bufsize)  // Pregunta: ¿por qué no "l > bufsize"?
+                       // Respuesta: para agregar el \0
         return false;
 
     for (size_t i = l; i > 0; i--) {
