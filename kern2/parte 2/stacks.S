@@ -20,39 +20,42 @@ msg2:
 .globl two_stacks
 two_stacks:
         // Preámbulo estándar
+
         push %ebp
         movl %esp, %ebp
+        push %ebx
 
         // Registros para apuntar a stack1 y stack2.
         mov $stack1_top, %eax
-        mov $stack2_top, %ecx
+        mov $stack2_top, %ebx
 
         // Cargar argumentos a ambos stacks en paralelo. Ayuda:
         // usar offsets respecto a %eax ($stack1_top), y lo mismo
         // para el registro usado para stack2_top.
         movl $0x17, -4(%eax)
-        movl $0x90, -4(%ecx)
+        movl $0x90, -4(%ebx)
 
         movl $12,  -8(%eax)
-        movl $13, -8(%ecx)
+        movl $13, -8(%ebx)
 
         movl $msg1,  -12(%eax)
-        movl $msg2, -12(%ecx)
+        movl $msg2, -12(%ebx)
 
         // Realizar primera llamada con stack1. Ayuda: usar LEA
         // con el mismo offset que los últimos MOV para calcular
         // la dirección deseada de ESP.
-        leal -12g(%eax), %esp
+        leal -12(%eax), %esp
         call vga_write
 
         // Restaurar stack original. ¿Es %ebp suficiente?
         movl %ebp, %esp
 
         // Realizar segunda llamada con stack2.
-        leal -8(%ecx), %esp
+        leal -12(%ebx), %esp
         call vga_write
 
         // Restaurar registros callee-saved, si se usaron.
+        pop %ebx
 
         leave
         ret
