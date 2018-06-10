@@ -19,6 +19,7 @@ void two_stacks(void);
 void two_stacks_c(void);
 
 // tasks.S
+// Realiza una llamada a "entry" sobre el stack proporcionado.
 void task_exec(uintptr_t entry, uintptr_t stack);
 void task_swap(uintptr_t *esp);
 

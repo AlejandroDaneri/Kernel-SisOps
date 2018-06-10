@@ -20,7 +20,6 @@ msg2:
 .globl two_stacks
 two_stacks:
         // Preámbulo estándar
-
         push %ebp
         movl %esp, %ebp
         push %ebx
