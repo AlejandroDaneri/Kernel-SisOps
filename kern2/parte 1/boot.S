@@ -12,7 +12,7 @@ multiboot:
 _start:
     // Paso 1: Configurar el stack antes de llamar a kmain.
     movl $0, %ebp
-    movl $kstack_bottom, %esp
+    movl $kstack_top, %esp
     push %ebp
 
     // Paso 2: pasar la información multiboot a kmain. Si el
@@ -36,4 +36,4 @@ halt:
 .p2align 12
 kstack:
     .space KSTACK_SIZE
-kstack_bottom:
+kstack_top:
