@@ -1,9 +1,15 @@
 CFLAGS := -g -std=c99 -Wall -Wextra -Wpedantic
-CFLAGS += -m32 -O1 -ffreestanding -fasm # para el kernel
+## para el kernel
+CFLAGS += -m32 -O1 -ffreestanding -fasm
 
+## .o de .S
+SRCS := $(wildcard *.S)
+OBJS := $(patsubst %.S,%.o,$(SRCS))
+
+## .o de .c
 SRCS := $(wildcard *.c)
 SRCS += $(wildcard lib/*.c)
-OBJS := $(patsubst %.c,%.o,$(SRCS))
+OBJS += $(patsubst %.c,%.o,$(SRCS))
 
 IP := 127.0.0.1:7508
 
@@ -25,7 +31,7 @@ gdb:
 
 .PHONY: qemu qemu-gdb gdb
 
-kern2: boot.o $(OBJS) # en el enunciado no esta el boot.o , sacar?
+kern2: $(OBJS) # en el enunciado no esta el boot.o , sacar?
 	ld -m elf_i386 -Ttext 0x100000  $^ $(LIBGCC) -o $@
 	# Verificar imagen Multiboot v1.
 	grub-file --is-x86-multiboot $@
