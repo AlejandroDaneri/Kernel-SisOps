@@ -31,7 +31,7 @@ gdb:
 
 .PHONY: qemu qemu-gdb gdb
 
-kern2: $(OBJS) # en el enunciado no esta el boot.o , sacar?
+kern2: $(OBJS)
 	ld -m elf_i386 -Ttext 0x100000  $^ $(LIBGCC) -o $@
 	# Verificar imagen Multiboot v1.
 	grub-file --is-x86-multiboot $@
