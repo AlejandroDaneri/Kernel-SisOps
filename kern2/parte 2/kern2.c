@@ -9,7 +9,7 @@ void kmain(const multiboot_info_t *mbi) {
 
         two_stacks();
         two_stacks_c();
-        
+
         vga_write2("Funciona vga_write2?", 18, 0xE0);
     }
 }
@@ -21,25 +21,23 @@ void two_stacks_c() {
     // Inicializar al *tope* de cada pila.
     uintptr_t *a = (uintptr_t*) stack1 + USTACK_SIZE;
     uintptr_t *b = (uintptr_t*) stack2 + USTACK_SIZE;
-    
+
     // Preparar, en stack1, la llamada:
-    vga_write("vga_write() from stack1", 15, 0x57);
-    
-    *(a--) = 0x58;
-    *(a--) = 20;
+
+    *(a--) = 0x57;
+    *(a--) = 15;
     *(a) = (uintptr_t) "vga_write() from stack1";
 
     // Preparar, en s2, la llamada:
-    vga_write("vga_write() from stack2", 16, 0xD0);
-    
+
     b -= 3;
-    b[0] = (uintptr_t) "vga_write() from stack2";
-    b[1] = 21;
     b[2] = 0xD0;
+    b[1] = 16;
+    b[0] = (uintptr_t) "vga_write() from stack2";
 
     task_exec((uintptr_t) vga_write, (uintptr_t) a);
-        
+
     asm("movl %0, %%esp; call %1; movl %%ebp, %%esp"
-        : 
-        : "r"(b), "r"(vga_write));    
+        :
+        : "r"(b), "r"(vga_write));
 }
