@@ -42,7 +42,7 @@ static void contador_yield(unsigned lim, uint8_t linea, char color) {
             *buf++ = color;
         }
 
-        //yield();
+        yield();
     }
 }
 
@@ -54,12 +54,29 @@ void contador_run() {
 
     // Configurar stack1 y stack2 con los valores apropiados.
     uintptr_t *a = (uintptr_t*) stack1 + USTACK_SIZE;
-    uintptr_t *b = (uintptr_t*) stack2 + USTACK_SIZE;
-
     a -= 3;
     a[2] = 0x2F;
     a[1] = 0;
     a[0] = 100;
+
+
+    uintptr_t *b = (uintptr_t*) stack2 + USTACK_SIZE;
+    b -= 3;
+    b[2] = 0x4F;
+    b[1] = 1;
+    b[0] = 100;
+
+
+    // Simulo que el primer swap no es el primero
+    *(--b) = 0;
+    *(--b) = (uintptr_t)contador_yield;
+
+    // Seteo los registros calle save a 0
+    *(--b) = 0;
+    *(--b) = 0;
+    *(--b) = 0;
+    *(--b) = 0;
+
 
     // Actualizar la variable estática ‘esp’ para que apunte
     // al del segundo contador.
