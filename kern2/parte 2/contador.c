@@ -11,6 +11,14 @@ static uintptr_t esp;
 static uint8_t stack1[USTACK_SIZE] __attribute__((aligned(4096)));
 static uint8_t stack2[USTACK_SIZE] __attribute__((aligned(4096)));
 
+
+static void exit() {
+    uintptr_t tmp = esp;
+    esp = 0;
+    task_swap(&tmp);
+}
+
+
 static void yield() {
     if (esp)
         task_swap(&esp);
@@ -47,11 +55,6 @@ static void contador_yield(unsigned lim, uint8_t linea, char color) {
 }
 
 void contador_run() {
-    /*/ asi deberia funcionar
-    contador_yield(100, 0, 0x2F);
-    contador_yield(100, 1, 0x4F);
-    /*/
-
     // Configurar stack1 y stack2 con los valores apropiados.
     uintptr_t *a = (uintptr_t*) stack1 + USTACK_SIZE;
     a -= 3;
@@ -64,11 +67,12 @@ void contador_run() {
     b -= 3;
     b[2] = 0x4F;
     b[1] = 1;
-    b[0] = 100;
+    b[0] = 90;
 
+    // Llamada a exit al finalizar contador_yield
+    *(--b) = (uintptr_t)exit;
 
     // Simulo que el primer swap no es el primero
-    *(--b) = 0;
     *(--b) = (uintptr_t)contador_yield;
 
     // Seteo los registros calle save a 0
