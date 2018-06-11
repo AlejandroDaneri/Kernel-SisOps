@@ -1,0 +1,9 @@
+0010007d <vga_write2>:
+  10007d:	55                   	push   %ebp
+  10007e:	89 e5                	mov    %esp,%ebp
+  100080:	51                   	push   %ecx
+  100081:	52                   	push   %edx
+  100082:	50                   	push   %eax
+  100083:	e8 7d 01 00 00       	call   100205 <vga_write>
+  100088:	c9                   	leave  
+  100089:	c3                   	ret    
