@@ -1,6 +1,6 @@
 CFLAGS := -g -std=c99 -Wall -Wextra -Wpedantic
 ## para el kernel
-CFLAGS += -m32 -O1 -ffreestanding -fasm
+CFLAGS += -m32 -O1 -ffreestanding -fasm -fno-omit-frame-pointer
 
 ## .o de .S
 SRCS := $(wildcard *.S)
