@@ -9,9 +9,11 @@ void kmain(const multiboot_info_t *mbi) {
 
         two_stacks();
         two_stacks_c();
+        contador_run();
 
         vga_write2("Funciona vga_write2?", 18, 0xE0);
     }
+    asm("hlt");
 }
 
 static uint8_t stack1[USTACK_SIZE] __attribute__((aligned(4096)));
@@ -37,7 +39,7 @@ void two_stacks_c() {
 
     task_exec((uintptr_t) vga_write, (uintptr_t) a);
 
-    asm("movl %0, %%esp; call %1; movl %%ebp, %%esp"
+    asm("movl %0, %%esp; call *%1; movl %%ebp, %%esp"
         :
         : "r"(b), "r"(vga_write));
 }

@@ -2,6 +2,7 @@
 
 .text
 .globl task_exec
+.globl task_swap
 task_exec:
     
     push %ebp
@@ -9,7 +10,10 @@ task_exec:
 
     movl 8(%ebp), %eax
     movl 12(%ebp), %esp
-    call %eax
+    call *%eax
 
     leave
     ret
+
+task_swap:
+
