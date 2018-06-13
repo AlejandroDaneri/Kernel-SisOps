@@ -1,5 +1,8 @@
 #include "decls.h"
+#include "interrupts.h"
 
+static struct IDTR idtr;
+static struct Gate idt[256];
 // Multiboot siempre define "8" como el segmento de código.
 // (Ver campo CS en `info registers` de QEMU.)
 static const uint8_t KSEG_CODE = 8;
@@ -15,8 +18,8 @@ void idt_install(uint8_t n, void (*handler)(void)) {
     idt[n].type = STS_IG32;
     idt[n].segment = KSEG_CODE;
 
-    idt[n].off_15_0 = addr & ...
-    idt[n].off_31_16 = addr >> ...
+    idt[n].off_15_0 = addr & 0xFF;
+    idt[n].off_31_16 = addr >> 16;
 
     idt[n].present = 1;
 }
@@ -26,8 +29,8 @@ void idt_init() {
     idt_install(T_BRKPT, breakpoint);
 
     // (2) Configurar ubicación de la IDT.
-    idtr.base = (uintptr_t) ...
-    idtr.limit = ...
+    idtr.base = (uintptr_t) idt;
+    idtr.limit = idt+256;
 
     // (3) Activar IDT.
     asm("lidt %0" : : "m"(idtr));
