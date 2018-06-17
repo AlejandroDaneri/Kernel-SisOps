@@ -18,4 +18,4 @@ Indicar qué valor exacto tomará el campo limit para una IDT de 64 descriptores
 Consultar la sección 6.1 y explicar la diferencia entre interrupciones (§6.3) y excepciones (§6.4).
 
 Las excepciones ocurren cuando se ejecuta un instruccion que genera un error, por ejemplo, cuando se realiza una division por cero, o al acceder a una posicion de memoria inválida.
-En cambio, las interrupciones pueden ser generadas directamente por software, llamando a las instrucciones INT n. A su vez, las interrupciones pueden ocurrir por señales emitidas por el hardware, por ejemplo, una señal que es generada por un periferico cuando un usuario interactua con él.
+En cambio, las interrupciones pueden ser generadas directamente por software, llamando a las instrucciones INT n. A su vez, las interrupciones pueden ocurrir por señales emitidas por el hardware, por ejemplo, una señal que es generada por un periferico cuando un usuario interactua con él.		
