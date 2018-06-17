@@ -16,6 +16,8 @@ void kmain(const multiboot_info_t *mbi) {
         asm("int3");  // (b)
 
         vga_write2("Funciona vga_write2?", 18, 0xE0);
+
+
     }
     asm("hlt");
 }
