@@ -1,7 +1,7 @@
 #define PIC1 0x20
 #define ACK_IRQ 0x20
 
-.globl ack_irq:
+.globl ack_irq
 ack_irq:
         // Indicar que se manejó la interrupción.
         movl $ACK_IRQ, %eax
@@ -29,10 +29,10 @@ breakpoint:
 .globl timer_asm
 timer_asm:
         // Guardar registros.
-        ...
+        pusha
         call timer
         // Restaurar registros.
-        ...
+        popa
         jmp ack_irq
 
 

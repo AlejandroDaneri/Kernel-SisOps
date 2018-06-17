@@ -4,6 +4,7 @@
 #define IDT_SIZE 256
 static struct IDTR idtr;
 static struct Gate idt[IDT_SIZE];
+
 // Multiboot siempre define "8" como el segmento de código.
 // (Ver campo CS en `info registers` de QEMU.)
 static const uint8_t KSEG_CODE = 8;
@@ -47,7 +48,7 @@ void idt_init() {
 
     // (2) Configurar ubicación de la IDT.
     idtr.base = (uintptr_t) idt;
-    idtr.limit = KSEG_CODE*IDT_SIZE-1 ;
+    idtr.limit = 8 * IDT_SIZE - 1 ;
 
     // (3) Activar IDT.
     asm("lidt %0" : : "m"(idtr));
@@ -58,7 +59,7 @@ void irq_init() {
     irq_remap();
 
     // (2) Instalar manejadores.
-    idt_install(T_TIMER, ack_irq);
+    idt_install(T_TIMER, timer_asm);
     idt_install(T_KEYBOARD, ack_irq);
 
     // (3) Habilitar interrupciones.
