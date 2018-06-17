@@ -11,9 +11,9 @@ void kmain(const multiboot_info_t *mbi) {
         two_stacks_c();
         contador_run();
 
-        // Código ejercicio kern2-idt.
-        idt_init();   // (a)
-        asm("int3");  // (b)
+        idt_init();
+        irq_init();
+        asm("int3");
 
         vga_write2("Funciona vga_write2?", 18, 0xE0);
 

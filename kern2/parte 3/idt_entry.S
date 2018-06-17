@@ -1,3 +1,14 @@
+#define PIC1 0x20
+#define ACK_IRQ 0x20
+
+.globl ack_irq:
+ack_irq:
+        // Indicar que se manejó la interrupción.
+        movl $ACK_IRQ, %eax
+        outb %al, $PIC1
+        iret
+
+
 .globl breakpoint
 breakpoint:
         // (1) Guardar registros.
@@ -14,7 +25,19 @@ breakpoint:
         // (5) Finalizar ejecución del manejador.
         iret
 
+
+.globl timer_asm
+timer_asm:
+        // Guardar registros.
+        ...
+        call timer
+        // Restaurar registros.
+        ...
+        jmp ack_irq
+
+
 .data
 breakpoint_msg:
         .asciz "Hello, breakpoint"
+
 

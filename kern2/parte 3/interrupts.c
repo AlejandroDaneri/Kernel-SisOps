@@ -12,6 +12,22 @@ static const uint8_t KSEG_CODE = 8;
 // tabla 6-2: IDT Gate Descriptors).
 static const uint8_t STS_IG32 = 0xE;
 
+#define outb(port, data) \
+        asm("outb %b0,%w1" : : "a"(data), "d"(port));
+
+static void irq_remap() {
+    outb(0x20, 0x11);
+    outb(0xA0, 0x11);
+    outb(0x21, 0x20);
+    outb(0xA1, 0x28);
+    outb(0x21, 0x04);
+    outb(0xA1, 0x02);
+    outb(0x21, 0x01);
+    outb(0xA1, 0x01);
+    outb(0x21, 0x0);
+    outb(0xA1, 0x0);
+}
+
 void idt_install(uint8_t n, void (*handler)(void)) {
     uintptr_t addr = (uintptr_t) handler;
 
@@ -35,4 +51,16 @@ void idt_init() {
 
     // (3) Activar IDT.
     asm("lidt %0" : : "m"(idtr));
+}
+
+void irq_init() {
+    // (1) Redefinir códigos para IRQs.
+    irq_remap();
+
+    // (2) Instalar manejadores.
+    idt_install(T_TIMER, ack_irq);
+    idt_install(T_KEYBOARD, ack_irq);
+
+    // (3) Habilitar interrupciones.
+    asm("sti");
 }
