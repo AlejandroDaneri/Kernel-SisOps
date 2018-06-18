@@ -3,7 +3,6 @@
 
 .globl ack_irq
 ack_irq:
-    // Indicar que se manejó la interrupción.
     movl $ACK_IRQ, %eax
     outb %al, $PIC1
     iret
