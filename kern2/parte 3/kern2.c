@@ -7,6 +7,9 @@ void kmain(const multiboot_info_t *mbi) {
     if (mbi) {
         vga_write("kern2 loading.............", 8, 0x70);
 
+        int8_t linea;
+        uint8_t color;
+
         two_stacks();
         two_stacks_c();
         contador_run();
@@ -14,6 +17,10 @@ void kmain(const multiboot_info_t *mbi) {
         idt_init();
         irq_init();
         asm("int3");
+
+        asm("div %4"
+        : "=a"(linea), "=c"(color)
+        : "0"(18), "1"(0xE0), "b"(0), "d"(0));
 
         vga_write2("Funciona vga_write2?", 18, 0xE0);
 
