@@ -28,9 +28,19 @@ timer_asm:
     // Guardar registros.
     pusha
     call timer
-    // Restaurar registros.
+
+    // Ack *antes* de llamar a sched()
+    movl $ACK_IRQ, %eax
+    outb %al, $PIC1
+
+    // Llamada a sched con argumento
+    push %esp
+    call sched
+
+    // Retornar (si se volvió de sched)
+    addl $4, %esp
     popa
-    jmp ack_irq
+    iret
 
 .globl keyboard_asm
 keyboard_asm:

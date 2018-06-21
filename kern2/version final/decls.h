@@ -6,6 +6,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#define USTACK_SIZE 4096
+
 struct multiboot_info;
 
 // mbinfo.c (ejercicio opcional kern2-meminfo)
@@ -25,6 +27,8 @@ void task_swap(uintptr_t *esp);
 
 // contador.c
 void contador_run(void);
+void round_robin(unsigned lim, uint8_t linea, char color);
+void halt();
 
 // interrupts.c
 void idt_init(void);
@@ -41,6 +45,9 @@ void keyboard_asm(void);
 // handlers.c
 void timer(void);
 void keyboard(void);
+
+// sched.c
+void sched_init(void);
 
 // funcs.S
 __attribute__((regparm(3))) void vga_write2(const char *s,

@@ -1,9 +1,9 @@
 #include "decls.h"
+#include "sched.h"
 
 #define COUNTLEN 20
 #define TICKS (1ULL << 15)
 #define DELAY(x) (TICKS << (x))
-#define USTACK_SIZE 4096
 
 static volatile char *const VGABUF = (volatile void *) 0xb8000;
 
@@ -24,7 +24,7 @@ static void yield() {
         task_swap(&esp);
 }
 
-static void contador_yield(unsigned lim, uint8_t linea, char color) {
+static void contador(unsigned lim, uint8_t linea, char color,const bool round_robin_mode) {
     char counter[COUNTLEN] = {'0'};  // ASCII digit counter (RTL).
 
     while (lim--) {
@@ -50,8 +50,19 @@ static void contador_yield(unsigned lim, uint8_t linea, char color) {
             *buf++ = color;
         }
 
-        yield();
+        if (!round_robin_mode)
+            yield();
     }
+    if (round_robin_mode)
+        kill_current_task();
+}
+
+static void contador_yield(unsigned lim, uint8_t linea, char color) {
+    contador(lim, linea, color, false);
+}
+
+void round_robin(unsigned lim, uint8_t linea, char color) {
+    contador(lim, linea, color, true);
 }
 
 void contador_run() {
@@ -67,7 +78,7 @@ void contador_run() {
     b -= 3;
     b[2] = 0x4F;
     b[1] = 1;
-    b[0] = 90;
+    b[0] = 80;
 
     // Llamada a exit al finalizar contador_yield
     *(--b) = (uintptr_t)exit;

@@ -27,6 +27,8 @@ _start:
     push %ecx
 
     call kmain
+
+.globl halt
 halt:
     hlt
     jmp halt
