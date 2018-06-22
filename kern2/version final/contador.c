@@ -71,14 +71,14 @@ void contador_run() {
     a -= 3;
     a[2] = 0x2F;
     a[1] = 0;
-    a[0] = 100;
+    a[0] = 200;
 
 
     uintptr_t *b = (uintptr_t*) stack2 + USTACK_SIZE;
     b -= 3;
     b[2] = 0x4F;
     b[1] = 1;
-    b[0] = 80;
+    b[0] = 100;
 
     // Llamada a exit al finalizar contador_yield
     *(--b) = (uintptr_t)exit;

@@ -1,7 +1,7 @@
 #include "decls.h"
 #include "sched.h"
 
-#define MAX_TASK 10
+#define MAX_TASK 5
 #define IF_FLAG 0x200
 
 static struct Task Tasks[MAX_TASK];
@@ -62,28 +62,27 @@ void spawn(void (*entry)(void)) {
 static bool first_call = true;
 
 void sched(struct TaskFrame *tf) {
-    struct Task *new_task = NULL;
-    struct Task *old_task = current;
-    size_t task_index = 0;
+    bool ready_task_found = false;
+    struct Task *previous = current;
 
-    while ((task_index < MAX_TASK) && (&Tasks[task_index] != old_task)){
+    size_t task_index = 0;
+    while ((task_index < MAX_TASK) && (&Tasks[task_index] != previous)){
         task_index++;
     }
 
-    old_task->status = READY;
+    previous->status = READY;
 
-    while (!new_task){
-        task_index++;
-        if (task_index >= MAX_TASK){
-            task_index = 0;
-        }
+    while (!ready_task_found){
+        task_index = (task_index+1) % MAX_TASK;
+
         if (Tasks[task_index].status == READY){
-            new_task = &Tasks[task_index];
+            ready_task_found = true;
+
             if (!first_call){
-                old_task->frame = tf;
+                previous->frame = tf;
             } else
                 first_call = false;
-            current = new_task;
+            current = &Tasks[task_index];
             current->status = RUNNING;
 
             asm("movl %0, %%esp\n"

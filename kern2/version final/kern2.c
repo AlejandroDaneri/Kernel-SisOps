@@ -8,11 +8,11 @@ static void contador1() {
 }
 
 static void contador2() {
-    round_robin(50, 7, 0x2A);
+    round_robin(200, 7, 0x2A);
 }
 
 static void contador3() {
-    round_robin(500, 8, 0x1F);
+    round_robin(400, 8, 0x1F);
 }
 
 void contador_spawn() {
@@ -67,6 +67,7 @@ void kmain(const multiboot_info_t *mbi) {
 
         contador_spawn();
         sched_init();
+        //round_robin(420, 9, 0x1F);
 
         idt_init();
         irq_init();

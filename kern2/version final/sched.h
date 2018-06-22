@@ -26,7 +26,7 @@ struct TaskFrame {
 
 
 struct Task {
-    uint8_t stack[4096];
+    uint8_t stack[USTACK_SIZE];
     enum TaskStatus status;
     struct TaskFrame *frame;
 };
