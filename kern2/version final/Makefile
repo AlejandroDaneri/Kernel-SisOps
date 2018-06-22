@@ -42,7 +42,7 @@ clean:
 	rm -f kern2 *.o core
 
 pdf:
-	a2ps *.c *.S -Av --left-title="" --header="Daneri - Aparicio" --left-footer="[75.08] Sistemas Operativos" --footer="Lab Kern2" --line-numbers=1 --borders=yes --columns=2  --portrait --output=out.ps --encoding=ISO-8859-1 --tabsize=4 --major=columns --landscape --toc
+	a2ps *.h *.c *.S -Av --left-title="" --header="Daneri - Aparicio" --left-footer="[75.08] Sistemas Operativos" --footer="Lab Kern2" --line-numbers=1 --borders=yes --columns=2  --portrait --output=out.ps --encoding=ISO-8859-1 --tabsize=4 --major=columns --landscape --toc
 	ps2pdf out.ps textos/sources.pdf
 	rm out.ps
 

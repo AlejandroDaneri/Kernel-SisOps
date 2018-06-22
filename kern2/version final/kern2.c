@@ -60,26 +60,26 @@ void kmain(const multiboot_info_t *mbi) {
 
         print_mbinfo(mbi);
     }
-        two_stacks();
-        two_stacks_c();
 
-        contador_run();
+    two_stacks();
+    two_stacks_c();
 
-        contador_spawn();
-        sched_init();
-        //round_robin(420, 9, 0x1F);
+    contador_run();
 
-        idt_init();
-        irq_init();
-        asm("int3");
+    contador_spawn();
+    sched_init();
 
-        int8_t linea;
-        uint8_t color;
-        asm("div %4"
-            : "=a"(linea), "=c"(color)
-            : "0"(18), "1"(0xE0), "b"(0), "d"(0));
+    idt_init();
+    irq_init();
+    asm("int3");
 
-        vga_write2("Funciona vga_write2?", linea, color);
+    int8_t linea;
+    uint8_t color;
+    asm("div %4"
+        : "=a"(linea), "=c"(color)
+        : "0"(18), "1"(0xE0), "b"(0), "d"(0));
+
+    vga_write2("Funciona vga_write2?", linea, color);
 
     asm("hlt");
 }
