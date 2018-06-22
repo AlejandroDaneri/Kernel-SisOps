@@ -1,9 +1,9 @@
 # kernel-sisop
 https://fisop.github.io/7508/lab/kern2/
 
-## Lectura de la parte 3
+## Para imprimir
 
-https://css.csail.mit.edu/6.858/2009/readings/ia32/ia32-3a.pdf#page=215&zoom=auto,-116,720
+https://github.com/AlejandroDaneri/kernel-sisop/blob/master/kern2/version%20final/textos/PARA_IMPRIMIR.pdf
 
 ## Tips:
  Lo que sigue se tiene que hacer sobre la terminal que levanto QEMU.
